@@ -24,7 +24,9 @@ try {
   if (!html.includes(rootPlaceholder)) {
     throw new Error("Could not find the root placeholder in the built HTML.");
   }
-  await writeFile(outputPath, html.replace(rootPlaceholder, `<div id="root">${markup}</div>`), "utf8");
+  const renderedHtml = html.replace(rootPlaceholder, `<div id="root">${markup}</div>`);
+  await writeFile(outputPath, renderedHtml, "utf8");
+  await writeFile(path.join(root, "dist", "public", "404.html"), renderedHtml, "utf8");
   console.log("Static React markup written to dist/public/index.html");
 } finally {
   await vite.close();
